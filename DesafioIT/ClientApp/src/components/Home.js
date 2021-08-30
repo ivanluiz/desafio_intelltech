@@ -7,7 +7,7 @@ export class Home extends Component {
     return (
       <div>
         <h1>Desafio</h1>
-        <p>Esta aplicação foi feita com Visual Studio e Sql Server 2019</p>       
+        <p>Esta aplicaÃ§Ã£o foi feita com Visual Studio e Sql Server 2019</p>       
       </div>
     );
   }

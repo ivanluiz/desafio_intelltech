@@ -12,8 +12,6 @@ namespace DesafioIT.Model
         [Column("Nome")]
         public string Nome { get; set; }
 
-        public ICollection<FormaGeometrica> FormasGeometricas { get; set; }
-
         public Diretorio()
         {
             this.Id = Guid.NewGuid();

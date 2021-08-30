@@ -11,27 +11,38 @@ namespace DesafioIT.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FormasGeometricasController : ControllerBase
+    public class FormaGeometricasController : ControllerBase
     {
         private readonly Contexto _context;
 
-        public FormasGeometricasController(Contexto context)
+        public FormaGeometricasController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: api/FormasGeometricas
+        // GET: api/FormaGeometricas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FormaGeometrica>>> GetFormaGeometrica()
         {
-            return await _context.FormaGeometrica.ToListAsync();
+            var formas = await _context.FormaGeometrica.ToListAsync();
+
+            foreach (var item in formas)
+            {
+                var diretorio = await _context.Diretorio.FindAsync(item.DiretorioId);
+                item.Diretorio = diretorio;
+            }
+
+            return formas;
         }
 
-        // GET: api/FormasGeometricas/5
+        // GET: api/FormaGeometricas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FormaGeometrica>> GetFormaGeometrica(Guid id)
         {
             var formaGeometrica = await _context.FormaGeometrica.FindAsync(id);
+
+            var diretorio = await _context.Diretorio.FindAsync(formaGeometrica.DiretorioId);
+            formaGeometrica.Diretorio = diretorio;
 
             if (formaGeometrica == null)
             {
@@ -41,7 +52,7 @@ namespace DesafioIT.Controllers
             return formaGeometrica;
         }
 
-        // PUT: api/FormasGeometricas/5
+        // PUT: api/FormaGeometricas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFormaGeometrica(Guid id, FormaGeometrica formaGeometrica)
@@ -72,18 +83,20 @@ namespace DesafioIT.Controllers
             return NoContent();
         }
 
-        // POST: api/FormasGeometricas
+        // POST: api/FormaGeometricas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<FormaGeometrica>> PostFormaGeometrica(FormaGeometrica formaGeometrica)
         {
+            var diretorio = await _context.Diretorio.FindAsync(formaGeometrica.DiretorioId);
+            formaGeometrica.Diretorio = diretorio;
+
             _context.FormaGeometrica.Add(formaGeometrica);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetFormaGeometrica", new { id = formaGeometrica.Id }, formaGeometrica);
         }
 
-        // DELETE: api/FormasGeometricas/5
+        // DELETE: api/FormaGeometricas/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFormaGeometrica(Guid id)
         {

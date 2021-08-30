@@ -17,6 +17,12 @@ namespace DesafioIT.Model
         [Column("Tamanho")]
         public int Tamanho { get; set; }
 
+        [ForeignKey("DiretorioId")]
+        public Diretorio Diretorio { get; set; }
+
+        [Column("DiretorioId")]
+        public Guid DiretorioId { get; set; }
+
         public FormaGeometrica()
         {
             this.Id = Guid.NewGuid();
